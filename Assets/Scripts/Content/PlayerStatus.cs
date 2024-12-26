@@ -3,47 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[Serializable]
-public class PlayerStatData : StatData
-{
-    public float maxFuel;
-    public float fuel;
-
-    public void CopyData(PlayerStatData copyData)
-    {
-        hp = copyData.hp;
-        fuel = copyData.fuel;
-        attack = copyData.attack;
-        moveSpeed = copyData.moveSpeed;
-        attackSpeed = copyData.attackSpeed;
-        defense = copyData.defense;
-    }
-}
-
-
 public class PlayerStatus : BaseStatus
 {
-    public float MaxFuel { get { return _currentStat.maxFuel; } }
+    public float MaxFuel { get { return _maxFuel; } }
 
     public float Fuel
     {
         get
         {
-            return _currentStat.fuel;
+            return _fuel;
         }
         set
         {
-            float calculator = Mathf.Min(value, _currentStat.fuel);
-            _currentStat.fuel = calculator;
+            float calculator = Mathf.Min(value, _fuel);
+            _fuel = calculator;
         }
     }
 
-    [SerializeField] private PlayerStatData _originStatData;
-    [SerializeField] private PlayerStatData _currentStat;
+    [SerializeField] private float _maxFuel;
+    [SerializeField] private float _fuel;
 
     public void SetInfo()
     {
-        _currentStat.CopyData(_originStatData);
+        _currentStat.CopyData(_orignStatData);
+        _fuel = _maxFuel;
     }
 }
