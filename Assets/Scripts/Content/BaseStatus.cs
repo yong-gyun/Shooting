@@ -9,15 +9,14 @@ public class StatData
     public float attack;
     public float moveSpeed;
     public float attackSpeed;
-    public float defense;
 
     public void CopyData(StatData copyData)
     {
+        maxHp = copyData.maxHp;
         hp = copyData.hp;
         attack = copyData.attack;
         moveSpeed = copyData.moveSpeed;
         attackSpeed = copyData.attackSpeed;
-        defense = copyData.defense;
     }
 }
 
@@ -42,15 +41,14 @@ public abstract class BaseStatus : MonoBehaviour
     public float Attack { get { return _currentStat.attack; } set { _currentStat.attack = value; } }
 
     public float MoveSpeed { get { return _currentStat.moveSpeed; } set { _currentStat.moveSpeed = value; } }
-
-    public float Defense { get { return _currentStat.defense; } set { _currentStat.defense = value; } }
     #endregion
 
     public bool Damageable { get; set; }
     public Action OnDeadEvent = null;
     public Action<float> OnDamagedEvent = null;
 
-    [SerializeField] private StatData _currentStat;         //현재 사용중인 복사용 데이터
+    [SerializeField] protected StatData _orignStatData;       //원본 스탯 데이터
+    [SerializeField] protected StatData _currentStat;         //현재 사용중인 복사용 데이터
 
     public void OnDamaged(float damage)
     {

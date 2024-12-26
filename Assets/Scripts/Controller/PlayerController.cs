@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerController : BaseController
 {
-    private float _attackTime;
+    [SerializeField] private List<Transform> _firePos = new List<Transform>();
     private PlayerStatus _playerStatus;
+    private float _attackTime;
+    private int _attackIndex;
 
     protected override void Start()
     {
         base.Start();
         _playerStatus = Status as PlayerStatus;
+        Init();
     }
 
     public override bool Init()
@@ -36,15 +40,17 @@ public class PlayerController : BaseController
         Dir = new Vector3(horizontal, 0f, vertical);
         if (horizontal > 0f)
         {
-            //È¸Àü
+            Quaternion qua = Quaternion.Euler(0f, 0f, -20f);
+            _model.transform.rotation = Quaternion.Lerp(_model.transform.rotation, qua, 10f * Time.deltaTime);
         }
         else if (horizontal < 0f)
         {
-
+            Quaternion qua = Quaternion.Euler(0f, 0f, 20f);
+            _model.transform.rotation = Quaternion.Lerp(_model.transform.rotation, qua, 10f * Time.deltaTime);
         }
         else
         {
-
+            _model.transform.rotation = Quaternion.Lerp(_model.transform.rotation, Quaternion.identity, 10f * Time.deltaTime);
         }
 
         transform.position += Dir * _playerStatus.MoveSpeed * Time.deltaTime;
