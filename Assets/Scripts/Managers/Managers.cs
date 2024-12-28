@@ -33,11 +33,22 @@ public class Managers : MonoBehaviour
 
             DontDestroyOnLoad(go);
             s_instance = go.GetComponent<Managers>();
+            s_instance._data.Init();
         }
+    }
+
+    private void Update()
+    {
+        Popup.OnUpdate();
     }
 
     public static void Clear()
     {
+        Data.Clear();
+    }
 
+    private void OnApplicationQuit()
+    {
+        Data.SaveDatas();
     }
 }

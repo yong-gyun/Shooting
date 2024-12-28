@@ -51,6 +51,6 @@ public class BaseController : InitBase
     public virtual void OnDeadEvent()
     {
         _deadEffect.Play();
-        Managers.Object.Despawn(gameObject);
+        Destroy(gameObject);
     }
 }

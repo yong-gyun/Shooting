@@ -71,5 +71,11 @@ public class PlayerController : BaseController
     private void OnAttack()
     {
         _attackTime = _playerStatus.AttackSpeed;
+        foreach (Transform t in _firePos)
+        {
+            Projectile projectile = Managers.Object.CreateProjectile("Player_Projectile", true);
+            projectile.transform.position = t.position;
+            projectile.SetInfo(_playerStatus.Attack, 5f, "Monster");
+        }
     }
 }

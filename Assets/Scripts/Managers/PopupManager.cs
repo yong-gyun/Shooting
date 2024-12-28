@@ -117,6 +117,7 @@ public class PopupManager
         if (popup != null)
         {
             popup.OnClosePopupBox();
+            _order--;
             _waitClosePopups.Add(popup);
         }
     }
