@@ -24,13 +24,16 @@ public class UI_GameScene : MonoBehaviour
         _timeText.text = string.Format("{0:00} : {1:00}", m, s);
         _scoreText.text = Managers.Stage.Score.ToString();
 
-        if (_status == null)
-            _status = Managers.Object.Player.Status as PlayerStatus;
+        if (Managers.Object.Player != null)
+        {
+            if (_status == null)
+                _status = Managers.Object.Player.Status as PlayerStatus;
 
-        _hpBar.value = (float)_status.Hp / _status.MaxHp;
-        _fuelBar.value = (float)_status.Fuel / _status.MaxFuel;
-        
-        _hpText.text = $"{_status.Hp} / {_status.MaxHp}";
-        _fuelText.text = $"{_status.Fuel} / {_status.MaxFuel}";
+            _hpBar.value = (float)_status.Hp / _status.MaxHp;
+            _fuelBar.value = (float)_status.Fuel / _status.MaxFuel;
+
+            _hpText.text = $"{_status.Hp} / {_status.MaxHp}";
+            _fuelText.text = $"{_status.Fuel} / {_status.MaxFuel}";
+        }
     }
 }

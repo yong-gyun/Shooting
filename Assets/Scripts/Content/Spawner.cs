@@ -29,13 +29,21 @@ public class Spawner : MonoBehaviour
     private Coroutine _coroutine;
     private float _currentTime;
 
-    public void StartSpawn()
+    private void Start()
+    {
+        Managers.Stage.OnStageStartEvent -= StartSpawn;
+        Managers.Stage.OnStageStartEvent += StartSpawn;
+
+    }
+
+    public void StartSpawn(int stage)
     {
         if (_coroutine != null)
         {
             StopCoroutine(_coroutine);
         }
 
+        _currentSpawnData = _spawnDatas[stage - 1];
         _coroutine = StartCoroutine(CoSpawning());
     }
 
@@ -99,5 +107,13 @@ public class Spawner : MonoBehaviour
         }
 
         return result;
+    }
+
+    public void Clear()
+    {
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+
+        _coroutine = null;
     }
 }
