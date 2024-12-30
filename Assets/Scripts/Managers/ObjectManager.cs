@@ -27,12 +27,13 @@ public class ObjectManager
         return pc;
     }
 
-    public MonsterController SpawnMonster(string name)
+    public MonsterController SpawnMonster(Define.MonsterType type, Transform spawnPos)
     {
-        GameObject prefab = Resources.Load<GameObject>($"Prefab/Creature/{name}");
+        GameObject prefab = Resources.Load<GameObject>($"Prefab/Creature/Monster/{type}");
         GameObject go = Object.Instantiate(prefab, MonsterRoot);
 
         MonsterController mc = go.GetComponent<MonsterController>();
+        mc.SetInfo(spawnPos);
         return mc;
     }
 
@@ -60,5 +61,15 @@ public class ObjectManager
         go.transform.parent = Root;
         transform = go.transform;
         return transform;
+    }
+
+    public bool CheckFixPosMosnter(Define.MonsterType type)
+    {
+        if (type == Define.MonsterType.Dron)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

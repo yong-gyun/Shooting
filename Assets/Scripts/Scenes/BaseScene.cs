@@ -11,5 +11,5 @@ public abstract class BaseScene : MonoBehaviour
         Init();
     }
 
-    protected abstract void Init();
+    public abstract void Init();
 }

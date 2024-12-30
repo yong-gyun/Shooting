@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseController : InitBase
+public class BaseController : MonoBehaviour
 {
     public Define.CreatureType CreatureType { get; set; }
     public BaseStatus Status { get; private set; }
-    
+    public string TargetTag { get; protected set; }
+
     public Vector3 Dir { get { return _dir.normalized; } set { _dir = value; } }        //정규화된 벡터 리턴
     protected Vector3 _dir;
 
     [SerializeField] protected GameObject _model;
-    [SerializeField] protected ParticleSystem _hitEffect;
-    [SerializeField] protected ParticleSystem _deadEffect;
+    [SerializeField] protected GameObject _hitEffect;
+    [SerializeField] protected GameObject _deadEffect;
 
     protected virtual void Start()
     {
@@ -25,32 +26,25 @@ public class BaseController : InitBase
         Status.OnDeadEvent += OnDeadEvent;
     }
 
-    public override bool Init()
+    public virtual void Init()
     {
-        if (base.Init() == false)
-            return false;
-
         Status.Damageable = true;
-        return true;
     }
 
-    public override bool Clear()
+    public virtual void Clear()
     {
-        if (base.Clear() == false)
-            return false;
-
         Status.Damageable = false;
-        return true;
     }
 
-    public virtual void OnDamagedEvent(float damage)
+    public virtual void OnDamagedEvent(GameObject attacker)
     {
-        _hitEffect.Play();
+        GameObject go = Instantiate(_hitEffect, attacker.transform.position, Quaternion.identity, transform);
+        Destroy(go, 1f);
     }
 
     public virtual void OnDeadEvent()
     {
-        _deadEffect.Play();
-        Destroy(gameObject);
+        GameObject go = Instantiate(_deadEffect, transform);
+        Destroy(go, 1f);
     }
 }

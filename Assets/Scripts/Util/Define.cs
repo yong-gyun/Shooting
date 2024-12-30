@@ -21,6 +21,7 @@ public class Define
 
     public enum SceneType
     {
+        None,
         Title,
         Main,
         Game,
@@ -31,6 +32,12 @@ public class Define
         Player,
         Monster,
         Boss
+    }
+
+    public enum MonsterType
+    {
+        None,
+        Dron
     }
 
     public enum ItemType

@@ -12,12 +12,14 @@ public class Managers : MonoBehaviour
     private ObjectManager _object = new ObjectManager();
     private SceneManagerEx _scene = new SceneManagerEx();
     private SoundManager _sound = new SoundManager();
+    private StageManager _stage = new StageManager();
 
     public static DataManager Data { get { return Instance._data; } }
     public static PopupManager Popup { get { return Instance._popup; } }
     public static ObjectManager Object { get { return Instance._object; } }
     public static SceneManagerEx Scene { get { return Instance._scene; } }
     public static SoundManager Sound { get { return Instance._sound; } }
+    public static StageManager Stage { get { return Instance._stage; } }
 
     private static void Init()
     {

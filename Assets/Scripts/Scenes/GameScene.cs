@@ -5,11 +5,18 @@ using UnityEngine;
 
 public class GameScene : BaseScene
 {
-    public int Score { get; set; }
-    public float PlayTime { get; set; }
-
-    protected override void Init()
+    public override void Init()
     {
-        
+        Managers.Object.SpawnPlayer();
+    }
+
+    private void Update()
+    {
+        Managers.Stage.OnUpdate();
+    }
+
+    public void ChangeStage()
+    {
+        Managers.Object.Player.Init();
     }
 }

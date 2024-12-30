@@ -3,41 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : InitBase
+public class Projectile : MonoBehaviour
 {
     public Action<Projectile> OnProjectileEvent = null;
-    private float _damage;
-    private float _speed;
-    private string _targetTag;
+    protected float _damage;
+    protected float _speed;
+    protected string _targetTag;
+    protected BaseController _owner;
 
     private void Awake()
     {
-        Init();
-    }
-
-    public override bool Init()
-    {
-        if (base.Init() == false)
-            return false;
-
         gameObject.SetActive(false);
-        return true;
     }
 
-    public void SetInfo(float damage, float speed, string targetTag = "Player")
+    public virtual void SetInfo(BaseController owner, float speed = 12f)
     {
-        _damage = damage;
+        _owner = owner;
+        _damage = owner.Status.Attack;
         _speed = speed;
-        _targetTag = targetTag;
+        _targetTag = owner.TargetTag;
 
         gameObject.SetActive(true);
     }
 
     private void Update()
     {
-        if (_init == false)
-            return;
-
         transform.position += transform.forward * _speed * Time.deltaTime;
     }
 
@@ -45,7 +35,7 @@ public class Projectile : InitBase
     {
         if (other.CompareTag(_targetTag) == true)
         {
-            other.GetComponent<PlayerStatus>().OnDamaged(_damage);
+            other.GetComponent<PlayerStatus>().OnDamaged(_owner.Status);
             Destroy(gameObject);
         }
     }

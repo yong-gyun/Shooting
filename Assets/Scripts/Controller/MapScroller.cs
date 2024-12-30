@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class MapScroller : MonoBehaviour
 {
+    [SerializeField] private Vector3 _dir;
+    [SerializeField] private float _speed = 0f;
+
     private Material _background;
     private Vector3 _offset;
-    private float _speed = 0.2f;
 
     private void Start()
     {
@@ -17,7 +19,7 @@ public class MapScroller : MonoBehaviour
     private void Update()
     {
         Vector3 offset = _background.mainTextureOffset;
-        offset += Vector3.down * _speed * Time.deltaTime;
+        offset += _dir.normalized * _speed * Time.deltaTime;
         _offset = offset;
         _background.mainTextureOffset = _offset;
     }

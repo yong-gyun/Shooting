@@ -13,21 +13,29 @@ public class PlayerController : BaseController
     protected override void Start()
     {
         base.Start();
+        TargetTag = "Monster";
+
         _playerStatus = Status as PlayerStatus;
+        _playerStatus.SetInfo();
         Init();
     }
 
-    public override bool Init()
+    public override void Init()
     {
-        if (base.Init() == false)
-            return false;
-
-        _playerStatus.SetInfo();
-        return true;
+        _playerStatus.SetFullCondition();
     }
 
     private void Update()
     {
+        if (Managers.Stage.IsStageStarted == true && Dir != Vector3.zero)
+        {
+            _playerStatus.Fuel -= Time.deltaTime * 0.75f;
+            if (_playerStatus.Fuel <= 0f)
+            {
+                _playerStatus.OnDead();
+            }
+        }
+
         UpdateMove();
         UpdateAttack();
     }
@@ -54,6 +62,14 @@ public class PlayerController : BaseController
         }
 
         transform.position += Dir * _playerStatus.MoveSpeed * Time.deltaTime;
+
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
+        if (viewPos.x > 1f)
+            viewPos.x = 1f;
+        if (viewPos.x < 0f)
+            viewPos.x = 0f;
+
+        transform.position = Camera.main.ViewportToWorldPoint(viewPos);
     }
 
     private void UpdateAttack()
@@ -71,11 +87,12 @@ public class PlayerController : BaseController
     private void OnAttack()
     {
         _attackTime = _playerStatus.AttackSpeed;
-        foreach (Transform t in _firePos)
+        for (int i = 0; i < _playerStatus.FireIndex; i++)
         {
+            Transform t = _firePos[i];
             Projectile projectile = Managers.Object.CreateProjectile("Player_Projectile", true);
             projectile.transform.position = t.position;
-            projectile.SetInfo(_playerStatus.Attack, 5f, "Monster");
+            projectile.SetInfo(this);
         }
     }
 }
