@@ -16,7 +16,7 @@ public class Projectile : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public virtual void SetInfo(BaseController owner, float speed = 12f)
+    public virtual void SetInfo(BaseController owner, float speed = 25f)
     {
         _owner = owner;
         _damage = owner.Status.Attack;
@@ -24,6 +24,7 @@ public class Projectile : MonoBehaviour
         _targetTag = owner.TargetTag;
 
         gameObject.SetActive(true);
+        Destroy(gameObject, 4f);
     }
 
     private void Update()

@@ -637,8 +637,8 @@ MonoBehaviour:
   _deadEffect: {fileID: 0}
   _firePos:
   - {fileID: 5216347503032241767}
-  - {fileID: 5356313990475721065}
   - {fileID: 7470455613771945905}
+  - {fileID: 5356313990475721065}
   - {fileID: 1711744926433563942}
 --- !u!114 &8903519504748868559
 MonoBehaviour:

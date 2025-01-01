@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnDatas:
-  - stage: 0
+  - stage: 1
     destTime: 0
     spawnInterval: 0
     spawnPoints: []

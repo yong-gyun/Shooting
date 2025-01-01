@@ -27,7 +27,10 @@ public class PlayerController : BaseController
 
     private void Update()
     {
-        if (Managers.Stage.IsStageStarted == true && Dir != Vector3.zero)
+        if (_playerStatus.Hp <= 0f)
+            return;
+
+        if (Managers.Stage.IsStageStarted == true)
         {
             _playerStatus.Fuel -= Time.deltaTime * 0.75f;
             if (_playerStatus.Fuel <= 0f)

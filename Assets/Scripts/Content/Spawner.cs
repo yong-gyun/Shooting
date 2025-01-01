@@ -29,7 +29,7 @@ public class Spawner : MonoBehaviour
     private Coroutine _coroutine;
     private float _currentTime;
 
-    private void Start()
+    private void Awake()
     {
         Managers.Stage.OnStageStartEvent -= StartSpawn;
         Managers.Stage.OnStageStartEvent += StartSpawn;

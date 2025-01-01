@@ -6,10 +6,10 @@ using Object = UnityEngine.Object;
 
 public class ObjectManager
 {
-    public Transform Root { get { return GetRoot("@Object_Root", _root); } }
-    public Transform MonsterProjectileRoot { get { return GetRoot("MonsterProjectile_Root", _monsterProjectileRoot); } }
-    public Transform PlayerProjectileRoot { get { return GetRoot("MonsterProjectile_Root", _playerProjectileRoot); } }
-    public Transform MonsterRoot { get { return GetRoot("Monster_Root", _monsterRoot); } }
+    public Transform Root { get { return GetRoot("@Object_Root", ref _root, true); } }
+    public Transform MonsterProjectileRoot { get { return GetRoot("MonsterProjectile_Root", ref _monsterProjectileRoot); } }
+    public Transform PlayerProjectileRoot { get { return GetRoot("PlayerProjectile_Root", ref _playerProjectileRoot); } }
+    public Transform MonsterRoot { get { return GetRoot("Monster_Root", ref _monsterRoot); } }
     public PlayerController Player { get; private set; }
 
     private Transform _root;
@@ -52,22 +52,27 @@ public class ObjectManager
         return projectile;
     }
 
-    public Transform GetRoot(string name, Transform transform)
+    public Transform GetRoot(string name, ref Transform transform, bool leaf = false)
     {
         if (transform != null)
+        {
             return transform;
+        }
 
         GameObject go = new GameObject(name);
-        go.transform.parent = Root;
+        if (leaf == false)
+            go.transform.parent = Root;
+
         transform = go.transform;
         return transform;
     }
 
     public bool CheckFixPosMosnter(Define.MonsterType type)
     {
-        if (type == Define.MonsterType.Dron)
+        switch (type)
         {
-            return true;
+            case Define.MonsterType.Dron:
+                return true;
         }
 
         return false;
