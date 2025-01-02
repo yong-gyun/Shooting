@@ -6,10 +6,22 @@ using Object = UnityEngine.Object;
 
 public class ObjectManager
 {
-    public Transform Root { get { return GetRoot("@Object_Root", ref _root, true); } }
-    public Transform MonsterProjectileRoot { get { return GetRoot("MonsterProjectile_Root", ref _monsterProjectileRoot); } }
-    public Transform PlayerProjectileRoot { get { return GetRoot("PlayerProjectile_Root", ref _playerProjectileRoot); } }
-    public Transform MonsterRoot { get { return GetRoot("Monster_Root", ref _monsterRoot); } }
+    public Transform Root
+    {
+        get
+        {
+            if (_root == null)
+            {
+                _root = new GameObject("@Object_Root").transform;
+            }
+
+            return _root;
+        }
+    }
+
+    public Transform MonsterProjectileRoot { get { return GetParent("MonsterProjectile_Root", ref _monsterProjectileRoot); } }
+    public Transform PlayerProjectileRoot { get { return GetParent("PlayerProjectile_Root", ref _playerProjectileRoot); } }
+    public Transform MonsterRoot { get { return GetParent("Monster_Root", ref _monsterRoot); } }
     public PlayerController Player { get; private set; }
 
     private Transform _root;
@@ -52,7 +64,7 @@ public class ObjectManager
         return projectile;
     }
 
-    public Transform GetRoot(string name, ref Transform transform, bool leaf = false)
+    public Transform GetParent(string name, ref Transform transform)
     {
         if (transform != null)
         {
@@ -60,9 +72,8 @@ public class ObjectManager
         }
 
         GameObject go = new GameObject(name);
-        if (leaf == false)
-            go.transform.parent = Root;
 
+        go.transform.parent = Root;
         transform = go.transform;
         return transform;
     }
